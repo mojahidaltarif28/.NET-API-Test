@@ -1,0 +1,15 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@if(Model.products==null)
+{
+    <p>Loading...</p>
+}else{
+    foreach(var i in Model.products)
+    {
+        <div>@i.ProductId @i.ProductName @i.Price</div>
+    }
+}

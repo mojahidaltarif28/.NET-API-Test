@@ -1,0 +1,92 @@
+﻿@page "/"
+@using WEBWASM.Services
+@inject OrderService OrderService;
+<PageTitle>Home</PageTitle>
+<div class="home">
+    <div class="home-table">
+        <h3 class="text-center">Product Table</h3>
+        <div class="table-api">
+
+            @if (products == null)
+            {
+                <p>Loading..</p>
+            }
+            else
+            {
+
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">Product Id</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var i in products)
+                        {
+                            <tr>
+                                <td scope="row">@i.ProductId</td>
+                                <td> @i.ProductName</td>
+                                <td> @i.Price</td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+    <div class="home-table">
+        <h3 class="text-center">Order Table</h3>
+        <div class="table-api">
+
+            @if (products == null)
+            {
+                <p>Loading..</p>
+            }
+            else
+            {
+
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">Order Id</th>
+                            <th scope="col">Product Id</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var i in ordereds)
+                        {
+                            <tr>
+                                <td scope="row">@i.OrderId</td>
+                                <td>@i.ProductId</td>
+                                <td>@i.OrderQuantity</td>
+                                <td>@i.OrderDate.ToString("yyyy-MM-dd")</td>
+                                <td>@i.OrderDate.ToString("hh-mm-ss tt")</td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private List<Product> products;
+    private List<Ordered> ordereds;
+    protected override async Task OnInitializedAsync()
+    {
+        products = await OrderService.GetProductsAsync();
+        ordereds = await OrderService.GetOrderedsAsync();
+    }
+
+}

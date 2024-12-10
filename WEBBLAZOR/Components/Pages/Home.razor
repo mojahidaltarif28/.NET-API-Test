@@ -1,0 +1,23 @@
+﻿@page "/"
+@using WEBBLAZOR.Services
+@inject OrderService OrderService;
+<PageTitle>Home</PageTitle>
+<div>
+    @if(products==null)
+    {
+      <p>Loading...</p>
+    }else{
+        @foreach(var i in products)
+        {
+            <div>@i.ProductId @i.ProductName @i.Price</div>
+        }
+    }
+</div>
+
+@code{
+    private List<Product> products;
+    protected override async Task OnInitializedAsync(){
+        products=await OrderService.GetProductsAsync();
+    }
+}
+
