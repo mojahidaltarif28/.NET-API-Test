@@ -82,3 +82,4 @@ C:\Users\Windows 10\Desktop\APITEST\WEB.API\obj\Debug\net8.0\refint\WEB.API.dll
 C:\Users\Windows 10\Desktop\APITEST\WEB.API\obj\Debug\net8.0\WEB.API.pdb
 C:\Users\Windows 10\Desktop\APITEST\WEB.API\obj\Debug\net8.0\WEB.API.genruntimeconfig.cache
 C:\Users\Windows 10\Desktop\APITEST\WEB.API\obj\Debug\net8.0\ref\WEB.API.dll
+C:\Users\Windows 10\Desktop\APITEST\WEB.API\obj\Debug\net8.0\WEB.API.sourcelink.json

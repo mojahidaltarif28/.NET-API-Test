@@ -110,8 +110,8 @@ code {
 
 .table-api {
     width: 100%;
-    height: 95%;
-    overflow-y:scroll;
+    height: 80% !important;
+    overflow-y:scroll !important;
 
 }
 tbody tr td,th{
@@ -123,4 +123,39 @@ tbody tr td,th{
 }
 .home-table{
     width: 45%;
+}
+.add-order-form{
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 40px;
+    padding-top: 20px;
+}
+.add-order{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 70%;
+    border: 1px solid gray;
+    border-radius: 8px;
+    height: 70px;
+}
+.form-group{
+    width: 28%;
+}
+.form-group select,input{
+    height: 40px;
+    width: 100%;
+    border: 1px solid rgba(161, 159, 159, 0.47);
+    border-radius: 8px;
+    padding-left: 8px;
+    outline: none;
+}
+.submit-btn{
+    background-color: #26b050;
+    color: white;
+    text-transform: uppercase;
+    border: 1px solid #26b050 !important;
+}
+.submit-btn:hover{
+   opacity: 0.9;
 }

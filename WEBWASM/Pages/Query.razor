@@ -1,18 +1,212 @@
-﻿@page "/Query"
-
+@page "/Query"
+@using WEBWASM.Services
+@using System.Net.Http.Json;
+@inject HttpClient Http;
+@inject OrderService OrderService
+@inject NavigationManager NavigationManager;
 <PageTitle>SQL Queries</PageTitle>
+<div class="add-order-form">
+  <EditForm class="add-order" Model="addOrder" OnValidSubmit="SubmitOrder">
+    <div class="form-group">
+      <select @bind="addOrder.ProductId">
+        @if (products == null)
+        {
+          <option>Loading...</option>
+        }
+        else
+          @foreach (var product in products)
+          {
+            <option value="@product.ProductId">@product.ProductName @product.ProductId</option>
+          }
 
-<h1>Counter</h1>
+      </select>
+    </div>
+    <div class="form-group">
+      <input type="number" class="quantity" @bind="addOrder.OrderQuantity" placeholder="Quantity" required>
+    </div>
+    <div class="form-group">
+      <input type="submit" value="Add Order" class="submit-btn">
+    </div>
+  </EditForm>
+</div>
+<div style="display: flex;">
+  <div style="padding-left: 40px; margin-top: 20px;width:71%;height:70vh">
+    <h3 class="text-center">Order Table</h3>
+    <div style="height:90%;overflow:scroll;border:1px solid gray">
 
-<p role="status">Current count: @currentCount</p>
+      @if (products == null)
+      {
+        <p>Loading..</p>
+      }
+      else
+      {
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+        <table class="table table-striped">
 
+          <thead>
+            <tr>
+              <th scope="col">Order Id</th>
+              <th scope="col">Product Id</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Date</th>
+              <th scope="col">Time</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var i in order)
+            {
+              <tr>
+                <td scope="row">@i.OrderId</td>
+                <td>@i.ProductId</td>
+                <td>@i.OrderQuantity</td>
+                <td>@i.OrderDate.ToString("yyyy-MM-dd")</td>
+                <td>@i.OrderDate.ToString("hh-mm-ss tt")</td>
+                <td>
+                  <button class="btn btn-primary"
+                    @onclick="() => EditOrder(i.OrderId,i.ProductId,i.OrderQuantity)">Edit</button>
+                  <button class="btn btn-danger" @onclick="() => Delete(i.OrderId)">Delete</button>
+                </td>
+              </tr>
+
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+  <div style="margin-left: 10px; width: 25%;">
+    <h3 class="text-center">Update Order</h3>
+    <div style="border:1px solid gray">
+
+      <table class="table table-striped">
+
+        <thead>
+          <tr>
+            <th scope="col">Order Id</th>
+            <th scope="col">Product Id</th>
+            <th scope="col">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          @{
+            if (updateOrderslist == null || !updateOrderslist.Any())
+            {
+              <tr>
+                <td colspan="3">No orders found</td>
+              </tr>
+            }
+            else
+            {
+              foreach (var i in updateOrderslist)
+              {
+                <tr>
+                 <td><input type="number" value="@i.OrderId" style="width: 80px;text-align: center;background-color: transparent;" readonly > </td>
+                  <td><input type="number" value="@i.ProductId" style="width: 80px;text-align: center;background-color: transparent;" readonly> </td>
+                  <td><input type="number" @bind="@i.OrderQuantity" style="width: 80px;" > </td>
+                </tr>
+              }
+            }
+          }
+
+        </tbody>
+      </table>
+      <div>
+        <input type="button" value="Update" class="btn btn-primary" @onclick="UpdateOrdersf">
+      </div>
+    </div>
+  </div>
+</div>
 @code {
-    private int currentCount = 0;
+  private AddOrder addOrder = new AddOrder();
+  private DeleteOrder deleteOrder = new DeleteOrder();
+  private List<Ordered> order;
+  private List<Product> products;
+  private List<UpdateOrder> updateOrderslist=new List<UpdateOrder>();
 
-    private void IncrementCount()
+  protected override async Task OnInitializedAsync()
+  {
+    order = await OrderService.GetOrderedsAsync();
+    products = await OrderService.GetProductsAsync();
+    if (products != null && products.Any())
     {
-        currentCount++;
+      addOrder.ProductId = products.First().ProductId;
     }
+  }
+  private async Task SubmitOrder()
+  {
+    try
+    {
+      var response = await Http.PostAsJsonAsync("http://localhost:5095/api/Ordered/Order", addOrder);
+      if (response.IsSuccessStatusCode)
+      {
+        Console.WriteLine("Order submitted successfully!");
+        addOrder.OrderQuantity = 1;
+        await Task.Delay(100);
+        order = await OrderService.GetOrderedsAsync();
+      }
+
+    }
+    catch (Exception e)
+    {
+      Console.WriteLine($"Exception: {e.Message}");
+    }
+
+  }
+
+  private async Task EditOrder(int orderId, int ProductId, int quantity)
+  {
+    updateOrderslist.Clear();
+    UpdateOrder up = new UpdateOrder
+      {
+        OrderId = orderId,
+        ProductId = ProductId,
+        OrderQuantity = quantity,
+      };
+    updateOrderslist.Add(up);
+    Console.WriteLine(updateOrderslist);
+  }
+  private async Task UpdateOrdersf()
+  {
+      foreach (var order in updateOrderslist)
+        {
+            Console.WriteLine($"OrderId: {order.OrderId}, ProductId: {order.ProductId}, Quantity: {order.OrderQuantity}");
+        }
+  }
+  private async Task Delete(int orderId)
+  {
+    try
+    {
+      deleteOrder.OrderId = orderId;
+      var response = await Http.PostAsJsonAsync($"http://localhost:5095/api/Ordered/OrderDelete", deleteOrder);
+      if (response.IsSuccessStatusCode)
+      {
+        Console.WriteLine($"Order with OrderId {orderId} deleted successfully!");
+        // Refresh the order list
+        order = await OrderService.GetOrderedsAsync();
+      }
+    }
+    catch (Exception e)
+    {
+      Console.WriteLine($"Exception: {e.Message}");
+    }
+  }
+
+  public class AddOrder
+  {
+    public int ProductId { get; set; }
+    public int OrderQuantity { get; set; }
+
+  }
+  public class DeleteOrder
+  {
+    public int OrderId { get; set; }
+  }
+  public class UpdateOrder
+  {
+    public int OrderId { get; set; }
+    public int ProductId { get; set; }
+    public int OrderQuantity { get; set; }
+  }
 }

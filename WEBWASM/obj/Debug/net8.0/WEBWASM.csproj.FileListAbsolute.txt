@@ -1054,3 +1054,4 @@ C:\Users\Windows 10\Desktop\APITEST\WEBWASM\obj\Debug\net8.0\compressed\u3w5it8a
 C:\Users\Windows 10\Desktop\APITEST\WEBWASM\obj\Debug\net8.0\compressed\tkbjxgrcn0.gz
 C:\Users\Windows 10\Desktop\APITEST\WEBWASM\obj\Debug\net8.0\compressed\2chrff0hrm.gz
 C:\Users\Windows 10\Desktop\APITEST\WEBWASM\obj\Debug\net8.0\compressed\gvuzgqdb2a.gz
+C:\Users\Windows 10\Desktop\APITEST\WEBWASM\obj\Debug\net8.0\WEBWASM.sourcelink.json
