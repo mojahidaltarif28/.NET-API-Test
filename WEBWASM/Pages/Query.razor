@@ -75,7 +75,7 @@
       }
     </div>
   </div>
-  <div style="margin-left: 10px; width: 25%;">
+  <div style="margin-left: 10px; width: 25%;margin-top: 20px;">
     <h3 class="text-center">Update Order</h3>
     <div style="border:1px solid gray">
 
@@ -91,29 +91,30 @@
         <tbody>
 
           @{
-            if (updateOrderslist == null || !updateOrderslist.Any())
+            if (updateOrder==null)
             {
               <tr>
-                <td colspan="3">No orders found</td>
+                <td colspan="3">No Data found</td>
               </tr>
             }
             else
             {
-              foreach (var i in updateOrderslist)
-              {
+  
                 <tr>
-                 <td><input type="number" value="@i.OrderId" style="width: 80px;text-align: center;background-color: transparent;" readonly > </td>
-                  <td><input type="number" value="@i.ProductId" style="width: 80px;text-align: center;background-color: transparent;" readonly> </td>
-                  <td><input type="number" @bind="@i.OrderQuantity" style="width: 80px;" > </td>
+                 <td><input type="number" value="@updateOrder.OrderId" style="width: 80px;text-align: center;background-color: transparent;" readonly > </td>
+                  <td><input type="number" value="@updateOrder.ProductId" style="width: 80px;text-align: center;background-color: transparent;" readonly> </td>
+                  <td><input type="number" @bind="@updateOrder.OrderQuantity" style="width: 80px;" > </td>
                 </tr>
-              }
+              
             }
           }
 
         </tbody>
       </table>
       <div>
+        @if(updateOrder!=null){
         <input type="button" value="Update" class="btn btn-primary" @onclick="UpdateOrdersf">
+        }
       </div>
     </div>
   </div>
@@ -123,7 +124,7 @@
   private DeleteOrder deleteOrder = new DeleteOrder();
   private List<Ordered> order;
   private List<Product> products;
-  private List<UpdateOrder> updateOrderslist=new List<UpdateOrder>();
+  private UpdateOrder updateOrder;
 
   protected override async Task OnInitializedAsync()
   {
@@ -157,22 +158,30 @@
 
   private async Task EditOrder(int orderId, int ProductId, int quantity)
   {
-    updateOrderslist.Clear();
-    UpdateOrder up = new UpdateOrder
+    
+    updateOrder = new UpdateOrder
       {
         OrderId = orderId,
         ProductId = ProductId,
         OrderQuantity = quantity,
       };
-    updateOrderslist.Add(up);
-    Console.WriteLine(updateOrderslist);
+    Console.WriteLine(updateOrder);
   }
   private async Task UpdateOrdersf()
   {
-      foreach (var order in updateOrderslist)
-        {
-            Console.WriteLine($"OrderId: {order.OrderId}, ProductId: {order.ProductId}, Quantity: {order.OrderQuantity}");
-        }
+    try{
+      var response=await Http.PostAsJsonAsync("http://localhost:5095/api/Ordered/UpdateOrder",updateOrder);
+      if(response.IsSuccessStatusCode)
+      {
+        Console.WriteLine("Update Successfull");
+        order=await OrderService.GetOrderedsAsync();
+        updateOrder=null;
+      }
+
+    }catch(Exception e)
+    {
+      Console.WriteLine(e.Message);
+    }
   }
   private async Task Delete(int orderId)
   {
@@ -183,7 +192,6 @@
       if (response.IsSuccessStatusCode)
       {
         Console.WriteLine($"Order with OrderId {orderId} deleted successfully!");
-        // Refresh the order list
         order = await OrderService.GetOrderedsAsync();
       }
     }

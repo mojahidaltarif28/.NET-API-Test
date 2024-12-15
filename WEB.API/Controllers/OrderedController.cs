@@ -82,7 +82,6 @@ namespace WEB.API.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 return StatusCode(500, $"Error: {e.Message}");
             }
         }
@@ -122,6 +121,40 @@ namespace WEB.API.Controllers
                 return StatusCode(500, $"Error: {e.Message}");
             }
         }
+        [HttpPost("UpdateOrder")]
+        public IActionResult UpdateOrder([FromBody] UpdateOrder updateOrder)
+        {
+            if(updateOrder==null)
+            {
+                return BadRequest("Update order list is null");
+            }else{
+                Console.WriteLine(updateOrder.OrderId+" "+updateOrder.OrderQuantity);
+            }
+           string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            try{
+                using(SqlConnection connection=new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql="update Ordertbl set OrderQuantity=@quantity where OrderId=@orderid;";
+                    using(SqlCommand command=new SqlCommand(sql,connection))
+                    {
+                        command.Parameters.AddWithValue("@quantity",updateOrder.OrderQuantity);
+                        command.Parameters.AddWithValue("@orderid",updateOrder.OrderId);
+                        int rows=command.ExecuteNonQuery();
+                        if(rows>0)
+                        {
+                            return Ok("Update Successfully");
+                        }else{
+                            return StatusCode(500,"Update Failed");
+                        }
+
+                    }
+                }
+            }catch(Exception e)
+            {
+                return StatusCode(500,$"Error:{e.Message}");
+            }
+        }
     }
     public class Ordered
     {
@@ -139,10 +172,10 @@ namespace WEB.API.Controllers
     {
         public int OrderId { get; set; }
     }
-     public class UpdateOrder
-  {
-    public int OrderId { get; set; }
-    public int ProductId { get; set; }
-    public int OrderQuantity { get; set; }
-  }
+    public class UpdateOrder
+    {
+        public int OrderId { get; set; }
+        public int ProductId { get; set; }
+        public int OrderQuantity { get; set; }
+    }
 }

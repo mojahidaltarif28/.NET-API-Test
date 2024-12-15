@@ -30,12 +30,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Windows 10/Desktop/APITEST/WEBWASM/Pages/Query.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVlcnkucmF6b3I=
+[C:/Users/Windows 10/Desktop/APITEST/WEBWASM/Pages/Join.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSm9pbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Windows 10/Desktop/APITEST/WEBWASM/Pages/Weather.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2VhdGhlci5yYXpvcg==
+[C:/Users/Windows 10/Desktop/APITEST/WEBWASM/Pages/Query.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVlcnkucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Windows 10/Desktop/APITEST/WEBWASM/_Imports.razor]
