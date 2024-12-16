@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WEBWASM")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2744608145b4b9c0e1e650a6ab80e26d6d842f65")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02d700aa23602d2344d0bac98deea8f72a3989e7")]
 [assembly: System.Reflection.AssemblyProductAttribute("WEBWASM")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WEBWASM")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

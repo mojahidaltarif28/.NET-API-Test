@@ -1,9 +1,9 @@
 ﻿@page "/Join"
 @inject HttpClient Http
 
-<PageTitle>Weather</PageTitle>
+<PageTitle>Join</PageTitle>
 <div style="padding-left: 40px; margin-top: 20px;width:71%;height:70vh">
-    <h3 class="text-center">Order Table</h3>
+    <h3 class="text-center">Ordered Products</h3>
     <div style="height:90%;overflow:scroll;border:1px solid gray">
 
         @if (orderdatas==null||orderdatas.products == null)
@@ -58,6 +58,39 @@
             }
         }
     </div>
+    <h3 class="text-center">Unordered Products</h3>
+    <div style="height:90%;overflow:scroll;border:1px solid gray">
+
+        @if (orderdatas==null||orderdatas.unorderedproduct == null)
+        {
+            <p>Loading..</p>
+        }
+        else
+        {
+
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th scope="col">Product Id</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in orderdatas.unorderedproduct)
+                    {
+                        <tr>
+                            <td scope="row">@i.productId</td>
+                            <td>@i.productName</td>
+                            <td>@i.price</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
 </div>
 @code {
     private orderdata orderdatas;
@@ -81,6 +114,11 @@
         public int total{get;set;}
         public DateTime OrderDate { get; set; }
     }
+    public class UnorderedProduct{
+        public int productId { get; set; }
+        public string productName { get; set; }
+        public decimal price { get; set; }
+    }
      public class OrderSummary
     {
         public double grandttl { get; set; }
@@ -90,5 +128,6 @@
     public class orderdata{
         public List<OrderedProduct> products{get;set;}
         public OrderSummary totals{get;set;}
+        public List<UnorderedProduct> unorderedproduct{get;set;}
     }
 }

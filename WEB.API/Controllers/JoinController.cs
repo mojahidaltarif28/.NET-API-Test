@@ -33,7 +33,7 @@ namespace WEB.API.Controllers
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            
+
                             while (reader.Read())
                             {
                                 products.Add(new OrderedProduct
@@ -51,26 +51,50 @@ namespace WEB.API.Controllers
                         }
                     }
                     string grandtotal = "select sum(Product.Price*Ordertbl.OrderQuantity) as GrandTotal,avg(Product.Price*Ordertbl.OrderQuantity) as AvgTotal,sum(Ordertbl.OrderQuantity) as TotalQuantity from Product inner join Ordertbl on Product.ProductId=Ordertbl.ProductId;";
+                  OrderSummary orderSummary = null;
                     using (SqlCommand command = new SqlCommand(grandtotal, connection))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
 
-                            OrderSummary orderSummary = null;
+                            
                             if (reader.Read())
                             {
                                 orderSummary = new OrderSummary
                                 {
-                                    grandttl =Convert.ToDouble(reader["GrandTotal"]),
-                                    grandavg=Convert.ToDouble(reader["AvgTotal"]),
-                                    grandQuantity=Convert.ToInt32(reader["TotalQuantity"])
+                                    grandttl = reader["GrandTotal"] == DBNull.Value ? 0 : Convert.ToDouble(reader["GrandTotal"]),
+                                    grandavg = reader["AvgTotal"]==DBNull.Value ? 0 : Convert.ToDouble(reader["AvgTotal"]),
+                                    grandQuantity = reader["TotalQuantity"]==DBNull.Value ? 0 : Convert.ToInt32(reader["TotalQuantity"])
 
-                               };
+                                };
                             }
-                            return Ok(new{
+
+                        }
+                    }
+                    string unordered = "SELECT Product.ProductId,Product.ProductName,Product.Price from Product left join Ordertbl on Product.ProductId=Ordertbl.ProductId where Ordertbl.ProductId is null  order by ProductId asc;";
+                    var unorderedProduct = new List<UnorderedProduct>();
+                    using (SqlCommand command = new SqlCommand(unordered, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+
+
+                            while (reader.Read())
+                            {
+                                UnorderedProduct un = new UnorderedProduct
+                                {
+                                    productId = Convert.ToInt32(reader["ProductId"]),
+                                    productName=Convert.ToString(reader["ProductName"]),
+                                    price=Convert.ToDecimal(reader["Price"])
+                                };
+                                unorderedProduct.Add(un);
+                            }
+                            return Ok(new
+                            {
                                 Products = products,
-                                  Totals = orderSummary
-                                   });
+                                Totals = orderSummary,
+                                unorderedproduct=unorderedProduct
+                            });
                         }
                     }
 
@@ -90,6 +114,12 @@ namespace WEB.API.Controllers
         public int quantity { get; set; }
         public int total { get; set; }
         public DateTime OrderDate { get; set; }
+    }
+    public class UnorderedProduct
+    {
+        public int productId { get; set; }
+        public string productName { get; set; }
+        public decimal price { get; set; }
     }
     public class OrderSummary
     {

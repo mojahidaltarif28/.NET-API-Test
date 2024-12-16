@@ -1,0 +1,117 @@
+@page "/stored"
+@using WEBWASM.Services;
+@inject HttpClient Http;
+@inject OrderService OrderService;
+<PageTitle>Store</PageTitle>
+<div style="display: flex;justify-content: space-evenly;">
+
+    <EditForm Model="products" OnValidSubmit="StoreData" style="width: 20vw;">
+        <h3>Add Product</h3>
+        <div class="form-group" style="width: 100%;margin-bottom: 10px;">
+            <label for="">Product Name</label>
+            <input type="text" @bind="products.ProductName" class="form-control" name="" id="" aria-describedby="helpId"
+                placeholder="Enter Product Name" required>
+        </div>
+        <div class="form-group" style="width: 100%;margin-bottom: 10px;">
+            <label for="">Price</label>
+            <input type="number" @bind="products.Price" class="form-control" name="" id="" aria-describedby="helpId"
+                placeholder="Enter Price" required>
+        </div>
+        <input type="submit" value="Add Product" class="btn btn-primary" style="margin-top:20px">
+    </EditForm>
+    <div class="home-table" >
+        <h3 class="text-center">Product Table</h3>
+        <div  style="height: 65vh;overflow-y:scroll;overflow-x:hidden;border:1px solid gray">
+
+            @if (product_list == null)
+            {
+                <p>Loading..</p>
+            }
+            else
+            {
+
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">Product Id</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var i in product_list)
+                        {
+                            <tr>
+                                <td scope="row">@i.ProductId</td>
+                                <td> @i.ProductName</td>
+                                <td> @i.Price</td>
+                                <td>
+                                    <button class="btn btn-danger" @onclick="()=>DeleteProduct(i.ProductId)">Delete</button>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+@{
+    if (products.Price <= 0)
+    {
+        products.Price = 1;
+    }
+}
+@code {
+    private Product products = new Product();
+    private Product deleteid=new Product();
+    private List<Product> product_list;
+    private async Task StoreData()
+    {
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("http://localhost:5095/api/Order/StoreProduct", products);
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Successfully product added");
+                products.ProductName="";
+                products.Price=1;
+                product_list=await OrderService.GetProductsAsync();
+            }
+            else
+            {
+                Console.WriteLine("Failed");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    private async Task DeleteProduct(int id)
+    {
+        Console.WriteLine(id);
+        deleteid.ProductId=id;
+        deleteid.ProductName="";
+        deleteid.Price=1;
+        var response=await Http.PostAsJsonAsync("http://localhost:5095/api/Order/DeleteProduct",deleteid);
+        if(response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Delete Successfully");
+             product_list=await OrderService.GetProductsAsync();
+
+        }else
+        {
+            Console.WriteLine("Error for Delete Product");
+        }
+    }
+
+protected override async Task OnInitializedAsync()
+{
+    product_list=await OrderService.GetProductsAsync();
+}
+}

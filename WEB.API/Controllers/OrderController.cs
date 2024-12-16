@@ -46,6 +46,66 @@ namespace WEB.API.Controllers
             }
         }
         
+        [HttpPost("StoreProduct")]
+        public IActionResult StoreProduct([FromBody] Product product){
+            if(product==null)
+            {
+                return StatusCode(500,"Badrequest");
+            }
+            string connectionString=_configuration.GetConnectionString("DefaultConnection");
+            try{
+                using(SqlConnection connection=new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    string sql="insert into Product (ProductName,Price) values (@name,@price)";
+                    using(SqlCommand command=new SqlCommand(sql,connection))
+                    {
+                        command.Parameters.AddWithValue("@name",product.ProductName);
+                        command.Parameters.AddWithValue("@price",product.Price);
+                        var result=command.ExecuteNonQuery();
+                        if(result>0)
+                        {
+                            return Ok("Successfull");
+                        }else
+                        {
+                            return StatusCode(500,"Error");
+                        }
+                    }
+                }
+
+            }catch(Exception e){
+                return StatusCode(500,e.Message);
+            }
+        }
+        [HttpPost("DeleteProduct")]
+        public IActionResult DeleteProduct([FromBody] Product product)
+        {
+             if(product==null)
+            {
+                return StatusCode(500,"Badrequest");
+            }else
+            {
+                Console.WriteLine("id: "+product.ProductId);
+            }
+            string connectionString=_configuration.GetConnectionString("DefaultConnection");
+            using(SqlConnection connection=new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql="delete from  Ordertbl WHERE ProductId = @id";
+                using(SqlCommand command=new SqlCommand(sql,connection))
+                {
+                    command.Parameters.AddWithValue("@id",product.ProductId);
+                    command.ExecuteNonQuery();
+                }
+                string sql2="delete from  Product WHERE ProductId = @id";
+                 using(SqlCommand command=new SqlCommand(sql2,connection))
+                {
+                    command.Parameters.AddWithValue("@id",product.ProductId);
+                    command.ExecuteNonQuery();
+                }
+                return Ok("successfull");
+            }
+        }
     }
     public class Product{
           public int ProductId { get; set; }
