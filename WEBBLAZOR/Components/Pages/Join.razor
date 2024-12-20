@@ -1,0 +1,133 @@
+@page "/join"
+@inject HttpClient Http
+
+<PageTitle>Join</PageTitle>
+<div style="padding-left: 40px; margin-top: 20px;width:71%;height:70vh">
+    <h3 class="text-center">Ordered Products</h3>
+    <div style="height:90%;overflow:scroll;border:1px solid gray">
+
+        @if (orderdatas==null||orderdatas.products == null)
+        {
+            <p>Loading..</p>
+        }
+        else
+        {
+
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th scope="col">Product Id</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in orderdatas.products)
+                    {
+                        <tr>
+                            <td scope="row">@i.productId</td>
+                            <td>@i.productName</td>
+                            <td>@i.price</td>
+                            <td>@i.quantity</td>
+                            <td>@i.total</td>
+                            <td>@i.OrderDate.ToString("yyyy-MM-dd")</td>
+                            <td>@i.OrderDate.ToString("hh-mm-ss tt")</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div style=" margin-top: 20px;">
+        @{
+            <h3><u>Summary:</u></h3>
+            if(orderdatas==null||orderdatas.totals==null)
+            {
+                <p>Loading...</p>
+            }
+            else{
+                <div><b>Total Order:</b> @orderdatas.totals.grandttl taka</div>
+                <div><b>Average Order:</b> @orderdatas.totals.grandavg taka</div>
+                <div><b>Total Quantity:</b> @orderdatas.totals.grandQuantity</div>
+            }
+        }
+    </div>
+    <h3 class="text-center">Unordered Products</h3>
+    <div style="height:90%;overflow:scroll;border:1px solid gray">
+
+        @if (orderdatas==null||orderdatas.unorderedproduct == null)
+        {
+            <p>Loading..</p>
+        }
+        else
+        {
+
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th scope="col">Product Id</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in orderdatas.unorderedproduct)
+                    {
+                        <tr>
+                            <td scope="row">@i.productId</td>
+                            <td>@i.productName</td>
+                            <td>@i.price</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+@code {
+    private orderdata orderdatas;
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            orderdatas=await Http.GetFromJsonAsync<orderdata>("http://localhost:5095/api/Join/OrderProduct");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    public class OrderedProduct
+    {
+        public int productId { get; set; }
+        public string productName { get; set; }
+        public decimal price { get; set; }
+        public int quantity { get; set; }
+        public int total{get;set;}
+        public DateTime OrderDate { get; set; }
+    }
+    public class UnorderedProduct{
+        public int productId { get; set; }
+        public string productName { get; set; }
+        public decimal price { get; set; }
+    }
+     public class OrderSummary
+    {
+        public double grandttl { get; set; }
+        public double grandavg { get; set; }
+        public int grandQuantity { get; set; }
+    }
+    public class orderdata{
+        public List<OrderedProduct> products{get;set;}
+        public OrderSummary totals{get;set;}
+        public List<UnorderedProduct> unorderedproduct{get;set;}
+    }
+}

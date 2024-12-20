@@ -30,3 +30,4 @@ C:\Users\Windows 10\Desktop\APITEST\WEBBLAZOR\obj\Debug\net8.0\refint\WEBBLAZOR.
 C:\Users\Windows 10\Desktop\APITEST\WEBBLAZOR\obj\Debug\net8.0\WEBBLAZOR.pdb
 C:\Users\Windows 10\Desktop\APITEST\WEBBLAZOR\obj\Debug\net8.0\WEBBLAZOR.genruntimeconfig.cache
 C:\Users\Windows 10\Desktop\APITEST\WEBBLAZOR\obj\Debug\net8.0\ref\WEBBLAZOR.dll
+C:\Users\Windows 10\Desktop\APITEST\WEBBLAZOR\obj\Debug\net8.0\WEBBLAZOR.sourcelink.json
