@@ -1,8 +1,10 @@
-﻿@page "/stored"
-@attribute [StreamRendering]
+@page "/stored"
+@rendermode InteractiveServer
 @using WEBBLAZOR.Services;
+@using System.Net.Http.Json;
 @inject HttpClient Http;
-@inject OrderService OrderService;
+@inject OrderService OrderService
+@inject NavigationManager NavigationManager;
 <PageTitle>Store</PageTitle>
 <div style="display: flex;justify-content: space-evenly;">
 
@@ -49,7 +51,7 @@
                                 <td> @i.ProductName</td>
                                 <td> @i.Price</td>
                                 <td>
-                                    <button class="btn btn-danger" @onclick="()=>DeleteProduct(i.ProductId)">Delete</button>
+                                    <button class="btn btn-danger" @onclick=" ()=>DeleteProduct(i.ProductId)">Delete</button>
                                 </td>
                             </tr>
 
@@ -65,11 +67,14 @@
     {
         products.Price = 1;
     }
+    Console.WriteLine(product_list);
 }
 @code {
+    
     private Product products = new Product();
     private Product deleteid=new Product();
     private List<Product> product_list;
+        
     private async Task StoreData()
     {
 
@@ -95,9 +100,9 @@
     }
     private async Task DeleteProduct(int id)
     {
-        Console.WriteLine(id);
+        Console.WriteLine("ID:"+id);
         deleteid.ProductId=id;
-        deleteid.ProductName="";
+        deleteid.ProductName=" ";
         deleteid.Price=1;
         var response=await Http.PostAsJsonAsync("http://localhost:5095/api/Order/DeleteProduct",deleteid);
         if(response.IsSuccessStatusCode)

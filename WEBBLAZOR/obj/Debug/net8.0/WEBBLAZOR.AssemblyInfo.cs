@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WEBBLAZOR")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+46313e9c97a91e09b3e5c1284ffc4b3de7b00191")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+58ea17a306f351ed5fdfb565ba7575a5029e9851")]
 [assembly: System.Reflection.AssemblyProductAttribute("WEBBLAZOR")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WEBBLAZOR")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
