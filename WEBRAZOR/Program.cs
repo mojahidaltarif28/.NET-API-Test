@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient<OrderServices>(client=>{
     client.BaseAddress=new Uri("http://localhost:5095/");
 });
@@ -25,5 +26,5 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
-
+app.MapBlazorHub();
 app.Run();

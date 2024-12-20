@@ -1,0 +1,96 @@
+@page
+@model WEBRAZOR.Pages.Join
+@{
+    ViewData["Title"] = "Join";
+}
+
+<div style="padding-left: 40px; margin-top: 20px;width:71%;height:70vh">
+    <h3 class="text-center">Ordered Products</h3>
+    <div style="height:90%;overflow:scroll;border:1px solid gray">
+
+        @if (Model.orderdatas==null||Model.orderdatas.products == null)
+        {
+            <p>Loading..</p>
+        }
+        else
+        {
+
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th scope="col">Product Id</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in Model.orderdatas.products)
+                    {
+                        <tr>
+                            <td scope="row">@i.productId</td>
+                            <td>@i.productName</td>
+                            <td>@i.price</td>
+                            <td>@i.quantity</td>
+                            <td>@i.total</td>
+                            <td>@i.OrderDate.ToString("yyyy-MM-dd")</td>
+                            <td>@i.OrderDate.ToString("hh-mm-ss tt")</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div style=" margin-top: 20px;">
+        @{
+            <h3><u>Summary:</u></h3>
+            if(Model.orderdatas==null||Model.orderdatas.totals==null)
+            {
+                <p>Loading...</p>
+            }
+            else{
+                <div><b>Total Order:</b> @Model.orderdatas.totals.grandttl taka</div>
+                <div><b>Average Order:</b> @Model.orderdatas.totals.grandavg taka</div>
+                <div><b>Total Quantity:</b> @Model.orderdatas.totals.grandQuantity</div>
+            }
+        }
+    </div>
+    <h3 class="text-center">Unordered Products</h3>
+    <div style="height:90%;overflow:scroll;border:1px solid gray">
+
+        @if (Model.orderdatas==null||Model.orderdatas.unorderedproduct == null)
+        {
+            <p>Loading..</p>
+        }
+        else
+        {
+
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th scope="col">Product Id</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in Model.orderdatas.unorderedproduct)
+                    {
+                        <tr>
+                            <td scope="row">@i.productId</td>
+                            <td>@i.productName</td>
+                            <td>@i.price</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

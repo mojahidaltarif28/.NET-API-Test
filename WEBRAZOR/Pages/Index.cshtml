@@ -1,15 +1,83 @@
-﻿@page
+﻿@page 
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-@if(Model.products==null)
-{
-    <p>Loading...</p>
-}else{
-    foreach(var i in Model.products)
-    {
-        <div>@i.ProductId @i.ProductName @i.Price</div>
-    }
-}
+<div class="home">
+    <div class="home-table">
+        <h3 class="text-center">Product Table</h3>
+        <div class="table-api">
+
+            @if (Model.products == null)
+            {
+                <p>Loading..</p>
+            }
+            else
+            {
+
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">Product Id</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var i in Model.products)
+                        {
+                            <tr>
+                                <td scope="row">@i.ProductId</td>
+                                <td> @i.ProductName</td>
+                                <td> @i.Price</td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+    <div class="home-table">
+        <h3 class="text-center">Order Table</h3>
+        <div class="table-api">
+
+            @if (Model.products == null)
+            {
+                <p>Loading..</p>
+            }
+            else
+            {
+
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">Order Id</th>
+                            <th scope="col">Product Id</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var i in Model.ordereds)
+                        {
+                            <tr>
+                                <td scope="row">@i.OrderId</td>
+                                <td>@i.ProductId</td>
+                                <td>@i.OrderQuantity</td>
+                                <td>@i.OrderDate.ToString("yyyy-MM-dd")</td>
+                                <td>@i.OrderDate.ToString("hh-mm-ss tt")</td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+

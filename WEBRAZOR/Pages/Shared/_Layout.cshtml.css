@@ -10,6 +10,9 @@ a.navbar-brand {
 a {
   color: #0077cc;
 }
+a:hover{
+  color: #0077cc;
+}
 
 .btn-primary {
   color: #fff;

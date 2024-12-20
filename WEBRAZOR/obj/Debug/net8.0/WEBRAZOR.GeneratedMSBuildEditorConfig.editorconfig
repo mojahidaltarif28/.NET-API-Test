@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Windows 10\Desktop\APITEST\WEBRAZOR
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Windows 10/Desktop/APITEST/WEBRAZOR/Pages/Query.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVlcnkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Windows 10/Desktop/APITEST/WEBRAZOR/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -26,12 +30,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Windows 10/Desktop/APITEST/WEBRAZOR/Pages/Join.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSm9pbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Windows 10/Desktop/APITEST/WEBRAZOR/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Windows 10/Desktop/APITEST/WEBRAZOR/Pages/QueryJ.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUXVlcnlKLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Windows 10/Desktop/APITEST/WEBRAZOR/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Windows 10/Desktop/APITEST/WEBRAZOR/Pages/Stored.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3RvcmVkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Windows 10/Desktop/APITEST/WEBRAZOR/Pages/_ViewImports.cshtml]

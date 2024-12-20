@@ -10,6 +10,9 @@ a.navbar-brand[b-rx5gfd2x46] {
 a[b-rx5gfd2x46] {
   color: #0077cc;
 }
+a:hover[b-rx5gfd2x46]{
+  color: #0077cc;
+}
 
 .btn-primary[b-rx5gfd2x46] {
   color: #fff;
