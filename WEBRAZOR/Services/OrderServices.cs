@@ -10,26 +10,27 @@ namespace WEBRAZOR.Services
         private readonly HttpClient _httpClient;
         public OrderServices(HttpClient httpClient)
         {
-            _httpClient=httpClient;
+            _httpClient = httpClient;
         }
         public async Task<List<Product>> GetProductsAsync()
         {
-            try{
-                var response=await _httpClient.GetAsync("api/Order");
-                var jsonData= await response.Content.ReadAsStringAsync();
-                if(response.IsSuccessStatusCode)
+            try
+            {
+                var response = await _httpClient.GetAsync("api/Order");
+                var jsonData = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
                 {
-                    var products=JsonConvert.DeserializeObject<List<Product>>(jsonData);
+                    var products = JsonConvert.DeserializeObject<List<Product>>(jsonData);
                     return products;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
             return new List<Product>();
         }
-         public async Task<List<Ordered>> GetOrderedsAsync()
+        public async Task<List<Ordered>> GetOrderedsAsync()
         {
             try
             {
@@ -48,12 +49,13 @@ namespace WEBRAZOR.Services
             return new List<Ordered>();
         }
     }
-     public class Product{
-          public int ProductId { get; set; }
+    public class Product
+    {
+        public int ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }
     }
-     public class Ordered
+    public class Ordered
     {
         public int OrderId { get; set; }
         public int ProductId { get; set; }

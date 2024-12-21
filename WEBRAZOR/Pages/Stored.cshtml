@@ -4,8 +4,69 @@
     ViewData["Title"] = "Stored";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div style="display: flex;justify-content: space-evenly;">
 
-<div>
-    
+    <form method="post" asp-page-handler="StoreData" style="width: 20vw;">
+        <h3>Add Product</h3>
+        <div class="form-group" style="width: 100%;margin-bottom: 10px;">
+            <label for="">Product Name</label>
+            <input type="text" asp-for="products.ProductName" class="form-control"  aria-describedby="helpId"
+                placeholder="Enter Product Name" required>
+        </div>
+        <div class="form-group" style="width: 100%;margin-bottom: 10px;">
+            <label for="">Price</label>
+            <input type="number" asp-for="products.Price" class="form-control"  aria-describedby="helpId"
+                placeholder="Enter Price" required>
+        </div>
+        <input type="submit" value="Add Product" class="btn btn-primary" style="margin-top:20px">
+    </form>
+    <div class="home-table" >
+        <h3 class="text-center">Product Table</h3>
+        <div  style="height: 65vh;overflow-y:scroll;overflow-x:hidden;border:1px solid gray">
+
+            @if (Model.product_list == null)
+            {
+                <p>Loading..</p>
+            }
+            else
+            {
+
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">Product Id</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var i in Model.product_list)
+                        {
+                            <tr>
+                                <td scope="row">@i.ProductId</td>
+                                <td> @i.ProductName</td>
+                                <td> @i.Price</td>
+                                <td>
+                                    <form method="post" asp-page-handler="DeleteProduct">
+                                        <input type="hidden" name="id" value="@i.ProductId" />
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
 </div>
+@{
+    if (Model.products.Price <= 0)
+    {
+        Model.products.Price = 1;
+    }
+    Console.WriteLine(Model.product_list);
+}
