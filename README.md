@@ -12,7 +12,8 @@ This repository contains a .NET solution with four projects demonstrating CRUD o
 1 **Clone the repository**:
 
    ```bash
-   git clone https://github.com/mojahidaltarif28/.NET-API-Test.git ```
-2 **Clone the repository**:
+   git clone https://github.com/mojahidaltarif28/.NET-API-Test.git 
+
+2  **Clone the repository**:
   ```bash
    cd .NET-API-Test
