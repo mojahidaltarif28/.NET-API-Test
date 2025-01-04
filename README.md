@@ -29,8 +29,8 @@ This repository contains a .NET solution with four projects demonstrating CRUD o
 
 1. **Clone the repository**:
 
-   ```bash
-   git clone https://github.com/mojahidaltarif28/.NET-API-Test.git 
+ ```bash
+ git clone https://github.com/mojahidaltarif28/.NET-API-Test.git 
    ```
 2.  **Navigate to the solution directory:**
   ```bash
